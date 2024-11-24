@@ -1,0 +1,88 @@
+#3.23
+临时修改
+1.敌人追逐闪回:index=1,不可知bug
+2.敌人壁咚:offset++,但有透视可能
+
+#TRANSFER
+记得要先搬tagmanager再导入
+更新URP后material和SHader要重新写
+
+#ver1.5
+饼:1、升级AI，让敌人变得“灵敏” 2、关卡编辑方案，方便地开发新关卡 3、添加特效 4、可破坏的门 5、添加wanderingAI，增加游戏随机性 6、连击技能系统
+
+#ver1.4
+#add 霰弹枪敌人
+#add 迈阿密热线风格准心
+#add 听觉
+            -听觉相关，记录【第一次】听见声音的位置，而非上一次，没错听见之后他就聋了，但没有瞎
+#add 军火库
+            -之前那个Weapons，Weapon还有Melee的脚本是个历史遗留问题，反正和军火库系统里面的武器无关
+            -总之，军火库系统是新的武器系统
+            -为了分辨新旧武器系统，军火库系统脚本用Magazine标记
+            -添加武器步骤{
+                1、在MagazineWeapon里面添加新的MagazineWeaponType
+                2、创建新的脚本
+                3、创建并配置SO
+                4、更新MagazineWeaponContainer
+            }
+#add 对话系统myEventSystem
+            -TimeLine,XNode,myEventXXX
+            -每次设置新场景的时候记得设置myEventManager的ID，并判断是否要改graph
+#change stage&level 
+            -每次需要手动设置enemy为stage的孩子,设置stage为levelObject的孩子
+            -每次需要为enemy手动设置stageID(2023.2.8更改:enemy的父物体stageObject会自动为其子物体设置stageID)
+            -使敌人、尸体、传送门适配stageID
+            -使血迹,玩家适配stageID
+            -注意BloodSightParticleMgr的Position必须初始化
+            -*new*设置新场景myEventManager的开始id
+#change newTriggerDoor的layer层Door不会与玩家的layer层Player相交
+
+#ver 1.3
+#add 关卡切换
+#add 关卡切换动画，小节清除(=波数控制)
+#add stage&level 
+            -每次需要手动设置enemy为stage的孩子,设置stage为levelObject的孩子
+            -每次需要为enemy手动设置stageID(2023.2.8更改:enemy的父物体stageObject会自动为其子物体设置stageID)
+            -使敌人、尸体、传送门适配stageID
+            -使血迹,玩家适配stageID
+            -注意BloodSightParticleMgr的Position必须初始化
+#add TransGate
+            -每次需要手动设置传送目的地、stageID以及调整障碍位置
+            -每次需要手动设置目的地stageID
+            -传送目的地位置z必须为-1
+#add TriggerDoor
+            -和传统的door相比，ABBox用来施加力，本体用来判断碰撞
+#add newTriggerDoor_Vertical&Horzontal
+            -弃用子物体Box，结合前面两个版本，利用Physcis2D判定是否施加力
+            利用点乘判断在A面还是B面，利用叉乘判断角速度
+#note: 玩家手太短，平A前摇太长。玩家只要经过敌人（无论是否时停）均会发现玩家
+
+#ver 1.2
+#add 弹药，时间能量UI 及其对接游戏重启事件
+#add 连击数面板
+                -连击时间未与chronos关联
+#add 主角飞刀与拾取飞刀
+#add bug：快速反复按下时停或子弹时间键会出bug，原因短时间内对同一值反复执行dotween
+                -OnComplete != onComplete我测
+                -玩家的z值要略微小于0，为了让血迹显示在玩家下面
+
+ver 1.1
+#add 地形
+#add 门 -时停状态下动门解除时停会鬼畜
+#add EnemyAI 倒地，处决，攻击，以及一些优化
+                - 时停后离开角度 <仍未完成>
+#add 游戏重启——观察者模式
+                -有些事件我们不希望它被禁
+                用时候就不监听，而是直到它销毁为止一直要监听,这个
+                事件就是【重启游戏】
+#add 玩家死亡，妈的rigidbody不能是static不然触发不了OnTriggerEnter
+
+ver 1.0
+# add Timecontrol model
+# add EnemyAI model -放弃A*Path优化 
+                    -离开chase的条件: 离开Trigger || 时停后离开角度 <未完成>
+                    -AI寻路还是回穿墙
+                        --AI处于巡逻状态的时候，寻路有问题
+
+ver 0.0
+# add PlayerControl -Layer之Floor层是专门给玩家旋转用的

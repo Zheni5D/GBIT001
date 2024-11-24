@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcc452d4c9b479a4892536d8a0bab0b1, type: 3}
+  m_Name: TileBaseDictionarySO
+  m_EditorClassIdentifier: 
+  TileBaseDictionary:
+  - key: {fileID: 11400000, guid: 5fb635dd360ba034bb0f565483dbbafa, type: 2}
+    value: {fileID: 11400000, guid: 9c51cc736384daa4eb6d8a9b17589c47, type: 2}
+  - key: {fileID: 11400000, guid: cc348683cc448b5488ac1ac5144b5e7b, type: 2}
+    value: {fileID: 11400000, guid: 9c51cc736384daa4eb6d8a9b17589c47, type: 2}
+  - key: {fileID: 11400000, guid: bcfac66e685a8f341a97b17118adf23e, type: 2}
+    value: {fileID: 11400000, guid: e1145ebca84165d46a38b38bc6ebe12f, type: 2}
+  - key: {fileID: 11400000, guid: 8610179b8bbc0024d97d46df2e503a38, type: 2}
+    value: {fileID: 11400000, guid: 78a9bb46b45c17847b07238e7e38159b, type: 2}
+  - key: {fileID: 11400000, guid: 54683c367badc43438d9f9ff6eace524, type: 2}
+    value: {fileID: 11400000, guid: 36ff7b8430ed535499603f1d3a18685a, type: 2}
+  - key: {fileID: 11400000, guid: 3674b21b96fb9f042971f5bb3240a3f8, type: 2}
+    value: {fileID: 11400000, guid: 78a9bb46b45c17847b07238e7e38159b, type: 2}
+  - key: {fileID: 11400000, guid: 1b1cfdf18d3f6c342af234a22f8c34a8, type: 2}
+    value: {fileID: 11400000, guid: 36ff7b8430ed535499603f1d3a18685a, type: 2}

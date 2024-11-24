@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Enemy
+  - Obstacle
+  - Bullet
+  - Monster
+  - Breakable
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - DownEnemy
+  - Water
+  - UI
+  - Obstacle
+  - Player
+  - Enemy
+  - TransparentObstacle
+  - Floor
+  - Door
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: TileMap
+    uniqueID: 2902142905
+    locked: 0
+  - name: Enemy
+    uniqueID: 2374910225
+    locked: 0
+  - name: Obstacle
+    uniqueID: 4004112281
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Player
+    uniqueID: 1614621447
+    locked: 0

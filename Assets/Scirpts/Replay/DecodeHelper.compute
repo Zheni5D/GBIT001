@@ -1,0 +1,22 @@
+#pragma kernel Kernel
+
+RWTexture2D<float4> OutputTexture;
+StructuredBuffer<uint> InputBuffer;
+
+[numthreads(8, 8, 1)]
+void Kernel(uint3 id : SV_DispatchThreadID)
+{
+    uint height, width;
+    OutputTexture.GetDimensions(width, height);
+
+    uint offset = id.x + (height - id.y - 1) * width;
+
+    uint colorByte = InputBuffer[offset];
+
+    float r = (colorByte & 0xFF) / 255.0f;
+    float g = ((colorByte >> 8) & 0xFF) / 255.0f;
+    float b = ((colorByte >> 16) & 0xFF) / 255.0f;
+    float a = ((colorByte >> 24) & 0xFF) / 255.0f;
+
+    OutputTexture[id.xy] = float4(r, g, b, a);
+}

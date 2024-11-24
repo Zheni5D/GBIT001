@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 92b8f64083605304d919d06e79bcf556
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - ScreenShockShader: {fileID: 4800000, guid: eb1e137a597b19d4895080f089c3f809, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

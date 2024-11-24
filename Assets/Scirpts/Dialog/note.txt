@@ -1,0 +1,30 @@
+# Signal Track
+在动画中调用函数
+实现原理：Signal Asset;Signal Emitter; Signal Receiver
+# DIY Track
+自定义轨道
+四要素：Track,Clip,Data/Behavior,Mixer
+#XNode
+NodeEditor必要前提：在./Nodes/Editor文件夹里面创建XXNodeEditor
+可显示前提：[Serializable]
+虽然销毁操作的确能解决DontDestroyOnLoad物体重复出现的问题，但被销毁的物体们仍会执行完Awake操作
+#XNode 获取后继节点
+    void fun()
+    {
+        if(curNode == startNode && isShow == false)
+        {
+            Debug.Log(curNode.DialogID.ToString() + "|+|" + curNode.Name);
+            isShow = true;
+            fun2();
+            return;
+        }
+
+        if (curNode.GetPort("exit").Connection == null)
+        {
+            Debug.Log("当前节点已经没有后继了");
+            return;
+        }
+        curNode = curNode.GetPort("exit").Connection.node as EventNode;
+        Debug.Log(curNode.DialogID.ToString() + "|+|" + curNode.Name);
+        fun2();
+    }

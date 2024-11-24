@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3523aec6758f3894cbfe6e96a0c5b128, type: 3}
+  m_Name: AllShitOfReferenceSO
+  m_EditorClassIdentifier: 
+  PrefabReference1: {fileID: 2810103453013686830, guid: 965004ddcf905fb4fba37542f0b6dc80, type: 3}
+  TransGate_arrow: {fileID: 5097877715137170381, guid: 9adc28335ceebc848ac42aacef97574a, type: 3}
+  PrefabReference3: {fileID: 0}
+  PrefabReference4: {fileID: 0}

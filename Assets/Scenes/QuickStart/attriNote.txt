@@ -1,0 +1,7 @@
+这是修改各种游戏物体属性的备忘录
+#Player
+    -speed:12
+#stupidEnemy
+    -speed:12
+    -reactTime:.4
+    -路径更新间隔:.25
