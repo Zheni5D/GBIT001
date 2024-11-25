@@ -18,23 +18,12 @@ public class TimeEnergyCubeBar : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void EnergySet(float energy)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            EnergyChange(-8f);
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            EnergyChange(8f);
-        }
-    }
-
-    public void EnergyChange(float energy)
-    {
-        _energy += energy;
-        _energy = Mathf.Clamp(_energy, 0f, 100f);
-        int cnt = Mathf.CeilToInt(_energy / 10);
+        _energy = energy;
+        _energy = Mathf.Clamp(_energy, 0f, TimeScaleChange.MAX_TIME_ENERGY);
+        int frac = Mathf.FloorToInt(TimeScaleChange.MAX_TIME_ENERGY / 10);
+        int cnt = Mathf.FloorToInt(_energy / frac);
         //cnt 0     1    2   3   4   5   6   7   8   9   10
         //index     0            0-3         0-6          0-9                         
         //cnt = active

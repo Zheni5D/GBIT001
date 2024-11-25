@@ -10,6 +10,7 @@ public class Bullet : BaseBehavior
     [SerializeField]private LayerMask layer;
     [SerializeField][Range(1,10)]private int iteration;
     protected bool canDamagePlayer=false;
+    private int _damage = 1;
 
     protected virtual void OnEnable() {
         MessageCenter.AddListener(OnGameRestart);
@@ -55,7 +56,7 @@ public class Bullet : BaseBehavior
 
                 if (other.CompareTag("Enemy") && !canDamagePlayer)
                 {
-                    other.GetComponent<simpleFSM>().GetDamaged(transform.up);
+                    other.GetComponent<simpleFSM>().GetDamaged(transform.up,_damage);
                     Destroy(gameObject);
                     return;
                 }
@@ -98,6 +99,11 @@ public class Bullet : BaseBehavior
     {
         if(msg.Mid != (int)MESSAGE_TYPE.GAME_RESTART) return;
         Destroy(gameObject);
+    }
+
+    public void SetDamage(int damage)
+    {
+        _damage = damage;
     }
 
 }

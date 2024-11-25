@@ -99,7 +99,7 @@ public class TimeScaleChange : MonoBehaviour
     // private Tween timeStopTweenFarward;
     // private Tween timeStopTweenBackward;
     private Cinemachine.CinemachineImpulseSource MyInpulse;
-
+    private PlayerInfoBox playerInfoBox;
     bool isStop = false;
     bool isFocusPowerOn = false;
     //hasPlayed_isStop代表Dotween动画是否播放完成
@@ -143,6 +143,7 @@ public class TimeScaleChange : MonoBehaviour
     void Start()
     {
         MyInpulse = GetComponent<Cinemachine.CinemachineImpulseSource>();
+        playerInfoBox = FindObjectOfType<PlayerInfoBox>();
         VFXClock = Timekeeper.instance.Clock("VFX");
         enemyClock = Timekeeper.instance.Clock("Enemy");
         rootClock = Timekeeper.instance.Clock("Root");
@@ -231,15 +232,19 @@ public class TimeScaleChange : MonoBehaviour
         
         if(Input.GetKeyDown(KeyCode.LeftShift))
         {
+            if(timeEnergy >= 20.0f)
+                FocusPower();
+            else
+                SetTimeEnergyIconRed();
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
             if (isFocusPowerOn)
             {
                 FocusPower();       
                 return;
             }
-            if(timeEnergy >= 20.0f)
-                FocusPower();
-            else
-                SetTimeEnergyIconRed();
         }
         #endregion
     }
@@ -338,21 +343,17 @@ public class TimeScaleChange : MonoBehaviour
 
     void SetTImeEnergyBar()
     {
-        //timeEnergyBar.fillAmount = timeEnergy / MAX_TIME_ENERGY;
+        playerInfoBox.SetTimeEnergyBar(timeEnergy);
     }
 
     void SetTimeEnergyIcon(bool _isOn)
     {
-        //if(_isOn)
-            //timeEnergyIcon.DOColor(Color.yellow,0.5f);
-        //else
-            //timeEnergyIcon.DOColor(Color.white,0.5f);
+        playerInfoBox.SetTimeEnergyIcon(_isOn);
     }
 
     void SetTimeEnergyIconRed()
     {
-        //timeEnergyIcon.color = Color.red;
-        //timeEnergyIcon.DOColor(Color.white,0.25f);
+        playerInfoBox.SetTimeEnergyIconRed();
     }
     #endregion
 

@@ -61,7 +61,7 @@ public class PlayerWeapon : MagazineBaseShooting
 
             if (rangedWeapon)
             {
-                rangedWeapon.GetComponent<WeaponItem>().timer -= Time.deltaTime; // 因为rangedWeapon被SetActive(false)了，Update不运行，不能正常计算开火CD,所以在这里计算
+                rangedWeapon.GetComponent<WeaponItem>().timer -= Time.deltaTime; // ???rangedWeapon??SetActive(false)???Update?????У???????????????CD,?????????????
             }
 
             if (Input.GetMouseButtonDown(1))
@@ -184,13 +184,13 @@ public class PlayerWeapon : MagazineBaseShooting
         if (!pickedThisFrame)
         {
             SoundManager.PlayAudio("pickUpWeapon");
-            if (newWeapon.TryGetComponent(out WeaponItem item)) // 捡到远程武器
+            if (newWeapon.TryGetComponent(out WeaponItem item)) // ?????????
             {
                 if (item.isRanged)
                 {
                     pickedThisFrame = true;
 
-                    if (rangedWeapon != null) // 丢掉原远程武器
+                    if (rangedWeapon != null) // ????????????
                     {
                         rangedWeapon.SetActive(true);
                         rangedWeapon.transform.SetParent(null);
@@ -210,11 +210,11 @@ public class PlayerWeapon : MagazineBaseShooting
                     Ammo = rangedWeapon.GetComponent<WeaponItem>().GetAmmoAmount();
                     AmmoAmountChanged(0);
                 }
-                else // 捡到近战武器
+                else // ????????
                 {
                     pickedThisFrame = true;
 
-                    if (meleeWeapon != null) // 丢掉原近战武器
+                    if (meleeWeapon != null) // ????????????
                     {
                         meleeWeapon.SetActive(true);
                         meleeWeapon.transform.SetParent(null);
@@ -264,7 +264,7 @@ public class PlayerWeapon : MagazineBaseShooting
         {
             rangedController = weaponItem.controller;
 
-            if (rangedWeapon.transform.parent != transform) // 进入Stage的武器被丢了，Restart时捡回来
+            if (rangedWeapon.transform.parent != transform) // ????Stage?????????????Restart??????
             {
                 rangedWeapon.SetActive(false);
                 rangedWeapon.transform.SetParent(transform);

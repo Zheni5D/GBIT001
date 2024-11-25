@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    [Header("这个脚本纯粹为player的近战武器碰撞检测服务")]
     private GameObject _bloodPrefab;
     private GameObject Player;
     private Collider2D attackBox;
@@ -18,12 +19,6 @@ public class Weapon : MonoBehaviour
         Player = GameObject.FindWithTag("Player");
         attackBox = GetComponent<Collider2D>();
         attackBox.enabled = false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     void OnTriggerEnter2D(Collider2D other)

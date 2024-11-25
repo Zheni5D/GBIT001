@@ -12,7 +12,7 @@ public class PlayerInfoBox : MonoBehaviour
     [FormerlySerializedAs("TimeEnergyBox")] public GameObject timeEnergyBox;
     private WeaponInfo _weaponInfo;
     private Image _timeEnergyIcon;
-    
+    private TimeEnergyCubeBar _timeEnergyCubeBar;
      private void OnEnable() {
         MagazineBaseShooting.OnAmmoChangedStatic += SetAmmoText;
     }
@@ -22,10 +22,11 @@ public class PlayerInfoBox : MonoBehaviour
         group = GetComponent<CanvasGroup>();
         _weaponInfo = transform.Find("WeaponInfo").GetComponent<WeaponInfo>();
         _timeEnergyIcon = timeEnergyBox.transform.Find("TEIcon").GetComponent<Image>();
+        _timeEnergyCubeBar = timeEnergyBox.GetComponentInChildren<TimeEnergyCubeBar>();
     }
 
     private void OnDisable() {
-        Shooting.OnAmmoChangedStatic -= SetAmmoText;
+        MagazineBaseShooting.OnAmmoChangedStatic -= SetAmmoText;
     }
 
     public void SetAmmoText(int amount)
@@ -33,8 +34,9 @@ public class PlayerInfoBox : MonoBehaviour
         _weaponInfo.setBulletCount(amount);
     }
 
-    public void SetTimeEnergyBar(int amount)
+    public void SetTimeEnergyBar(float amount)
     {
+        _timeEnergyCubeBar.EnergySet(amount);
     }
 
     public void SetTimeEnergyIcon(bool _isOn)
@@ -43,6 +45,12 @@ public class PlayerInfoBox : MonoBehaviour
             _timeEnergyIcon.DOColor(Color.yellow,0.5f);
         else
             _timeEnergyIcon.DOColor(Color.white,0.5f);
+    }
+    
+    public void SetTimeEnergyIconRed()
+    {
+        _timeEnergyIcon.color = Color.red;
+        _timeEnergyIcon.DOColor(Color.white,0.25f);
     }
 
     //10个块=100，每减10掉1个块

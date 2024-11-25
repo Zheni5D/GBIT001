@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class actorFSM : simpleFSM
 {
-
-    private void Start() {
-        
-    }
     protected override void StateRegister()
     {
         if(statesDic.Count != 0)

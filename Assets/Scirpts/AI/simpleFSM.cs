@@ -109,6 +109,7 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
 
         oriPos = transform.position;
         oriRot = transform.rotation;
+        paramater.HP = paramater.MAX_HP;
     }
 
 
@@ -312,11 +313,6 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
             if(sprite!=null) body.deadSprite = sprite;
             body.BodyMove(paramater.showBlood);
         }
-        //生成血迹
-        if (paramater.showBlood)
-        {
-            Instantiate(paramater.BloodPrefab, transform.position, Yquaternion);
-        }
         if (paramater.lootPrefab)
         {
             loot = Instantiate(paramater.lootPrefab, transform.position, Yquaternion); // 生成武器
@@ -489,28 +485,37 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
         EventRemover();
     }
     
-    protected float angle, Yangle;protected Quaternion Yquaternion;
-    public void GetDamaged(Vector3 dir)
+    protected float Yangle;protected Quaternion Yquaternion;
+    public void GetDamaged(Vector3 dir,int damage = 2)
     {
         if(!paramater.isDown && !paramater.isDead)
         {
-            paramater.isDead = true;
-            MessageCenter.SendMessage(new CommonMessage()
+            paramater.HP -= damage;
+            if (paramater.HP <= 0)
             {
-                Mid = (int)MESSAGE_TYPE.ADD_SCORE,
-                intParam = (int)paramater.stageID,
-                content = this
-            });
-            if(paramater.showBlood)
-                SoundManager.PlayAudio("slash");
-            else
-                SoundManager.PlayAudio("metalstep");
+                paramater.isDead = true;
+                MessageCenter.SendMessage(new CommonMessage()
+                {
+                    Mid = (int)MESSAGE_TYPE.ADD_SCORE,
+                    intParam = (int)paramater.stageID,
+                    content = this
+                });
+                if(paramater.showBlood)
+                    SoundManager.PlayAudio("slash");
+                else
+                    SoundManager.PlayAudio("metalstep");
+            }
+            //生成血迹
             //Bloody
-            angle = Vector3.SignedAngle(Vector3.right,dir,Vector3.forward);
+            //angle = Vector3.SignedAngle(Vector3.right,dir,Vector3.forward);
             Yangle = Vector3.SignedAngle(-Vector3.up,dir,Vector3.forward);//-V3.up是因为尸体的朝向与transform.up朝向相反的缘故;
-                                                                          //2024.4.27:溅血朝向也与up相反
+            //2024.4.27:溅血朝向也与up相反
             //quaternion = Quaternion.AngleAxis(angle,Vector3.forward);
             Yquaternion = Quaternion.AngleAxis(Yangle,Vector3.forward);
+            if (paramater.showBlood)
+            {
+                Instantiate(paramater.BloodPrefab, transform.position, Yquaternion);
+            }
         }
     }
 

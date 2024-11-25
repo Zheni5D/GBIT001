@@ -11,7 +11,7 @@ public enum MagazineWeaponType{
 }
 public class MagazineWeapon : ScriptableObject {
     public float rateOfFire;
-    public int damage;
+    public int damage = 2;
     [SerializeField]
     protected GameObject bulletPrefab;
     public int Ammo;
@@ -25,5 +25,12 @@ public class MagazineWeapon : ScriptableObject {
     public GameObject bulletShell;
     public virtual void Attack(Vector3 shootPos,Quaternion shootRot,bool canDamagePlayer = false){
         Debug.Log(1);
+    }
+
+    protected void GenerateBullet(Vector3 shootPos, Quaternion shootRot, bool canDamagePlayer = false)
+    {
+        GameObject bullet = Instantiate(bulletPrefab,shootPos,shootRot);
+        bullet.GetComponent<Bullet>().SetCanDamagePlayer(canDamagePlayer);
+        bullet.GetComponent<Bullet>().SetDamage(damage);
     }
 }

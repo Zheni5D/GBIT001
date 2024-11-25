@@ -12,6 +12,7 @@ public class MouseMove : MonoBehaviour
     [Tooltip("为什么会有两个target呢?target是准心,lookAtTarget被镜头跟随")]
     public GameObject lookAtTarget;
     private PlayerControl playerControl;
+    private KeyCode _keyCode = KeyCode.Space;
     bool isPressLShift;
     Vector3 curPlayerPos;
     Vector3 lastPlayerPos;
@@ -40,7 +41,7 @@ public class MouseMove : MonoBehaviour
         // {
         //     target.transform.position = Vector3.zero;
         // }
-        if(Input.GetKeyDown(KeyCode.LeftShift))
+        if(Input.GetKeyDown(_keyCode))
         {
             size *= 2;
             isPressLShift=true;
@@ -48,7 +49,7 @@ public class MouseMove : MonoBehaviour
             target.transform.position += correctOffset;
             //lookAtTarget.transform.position += correctOffset;
         }
-        if(Input.GetKeyUp(KeyCode.LeftShift))
+        if(Input.GetKeyUp(_keyCode))
         {
             size /= 2;
             isPressLShift=false;

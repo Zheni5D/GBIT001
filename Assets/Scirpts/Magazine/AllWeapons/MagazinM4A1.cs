@@ -13,8 +13,7 @@ public class MagazinM4A1 : MagazineWeapon
         Quaternion quaternion = Quaternion.identity;
         quaternion = Quaternion.Euler(0,0,angle);
         quaternion *= shootRot;
-        GameObject _bullet = Instantiate(bulletPrefab,shootPos,shootRot);
-        Instantiate(bulletShell, shootPos, shootRot);
-        _bullet.GetComponent<Bullet>().SetCanDamagePlayer(canDamagePlayer);
+        GenerateBullet(shootPos,quaternion,canDamagePlayer);   
+        Instantiate(bulletShell, shootPos, quaternion);
     }
 }
