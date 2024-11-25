@@ -1,4 +1,0 @@
-repository "CUSGA03@bkbbr0kenboy@cloud.cn"
-  path "/"
-    smartbranch "/main/release/debug2/summer" changeset "214"  
-     
