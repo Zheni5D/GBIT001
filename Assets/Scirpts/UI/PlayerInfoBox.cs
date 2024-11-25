@@ -4,53 +4,54 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.Serialization;
+
 public class PlayerInfoBox : MonoBehaviour
 {
     private CanvasGroup group;
-    public GameObject TimeEnergyBox;
-    private WeaponInfo weaponInfo;
-    private Image timeEnergyBar;
-    private Image timeEnergyIcon;
-
+    [FormerlySerializedAs("TimeEnergyBox")] public GameObject timeEnergyBox;
+    private WeaponInfo _weaponInfo;
+    private Image _timeEnergyIcon;
+    private TimeEnergyCubeBar _timeEnergyCubeBar;
      private void OnEnable() {
-        Shooting.OnAmmoChangedStatic += SetAmmoText;
+        MagazineBaseShooting.OnAmmoChangedStatic += SetAmmoText;
     }
     // Start is called before the first frame update
     void Start()
     {
         group = GetComponent<CanvasGroup>();
-        weaponInfo = transform.Find("WeaponInfo").GetComponent<WeaponInfo>();
-        timeEnergyBar = TimeEnergyBox.transform.Find("TEBar").GetComponent<Image>();
-        timeEnergyIcon = TimeEnergyBox.transform.Find("TEIcon").GetComponent<Image>();
+        _weaponInfo = transform.Find("WeaponInfo").GetComponent<WeaponInfo>();
+        _timeEnergyIcon = timeEnergyBox.transform.Find("TEIcon").GetComponent<Image>();
+        _timeEnergyCubeBar = timeEnergyBox.GetComponentInChildren<TimeEnergyCubeBar>();
     }
 
     private void OnDisable() {
-        Shooting.OnAmmoChangedStatic -= SetAmmoText;
+        MagazineBaseShooting.OnAmmoChangedStatic -= SetAmmoText;
     }
 
     public void SetAmmoText(int amount)
     {
-        weaponInfo.setBulletCount(amount);
+        _weaponInfo.setBulletCount(amount);
     }
 
-    public void SetTimeEnergyBar(int amount)
+    public void SetTimeEnergyBar(float amount)
     {
-        timeEnergyBar.fillAmount = amount;
+        _timeEnergyCubeBar.EnergySet(amount);
     }
 
     public void SetTimeEnergyIcon(bool _isOn)
     {
         if(_isOn)
-            timeEnergyIcon.DOColor(Color.yellow,0.5f);
+            _timeEnergyIcon.DOColor(Color.yellow,0.5f);
         else
-            timeEnergyIcon.DOColor(Color.white,0.5f);
+            _timeEnergyIcon.DOColor(Color.white,0.5f);
+    }
+    
+    public void SetTimeEnergyIconRed()
+    {
+        _timeEnergyIcon.color = Color.red;
+        _timeEnergyIcon.DOColor(Color.white,0.25f);
     }
 
-    // public void ToggleBox(bool b)
-    // {
-    //     if(b)
-    //         group.alpha = 1;
-    //     else
-    //         group.alpha = 0;
-    // }
+    //10个块=100，每减10掉1个块
 }

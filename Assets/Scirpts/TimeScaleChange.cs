@@ -81,17 +81,11 @@ public class TimeScaleChange : MonoBehaviour
         }
     }
     #endregion
-    private FocusPower focusPower;//弃用的
     #endregion
-    [Range(0,100f)]
+    [Range(0,100f),Tooltip("虽然值是连续的，但是表现层是离散的")]
     public float timeEnergy;
     public const float MAX_TIME_ENERGY = 100.0f;
-    #region  高耦合
-    [Header("没错，我打破封装啦啊哈哈哈")]
-    public GameObject TimeEnergyBox;
-    private Image timeEnergyBar;
-    private Image timeEnergyIcon;
-    #endregion
+
     [Tooltip("满分100分，每秒减consumeSpeed的分")]
     [SerializeField]
     private float consumeSpeed = 20.0f;
@@ -105,7 +99,7 @@ public class TimeScaleChange : MonoBehaviour
     // private Tween timeStopTweenFarward;
     // private Tween timeStopTweenBackward;
     private Cinemachine.CinemachineImpulseSource MyInpulse;
-
+    private PlayerInfoBox playerInfoBox;
     bool isStop = false;
     bool isFocusPowerOn = false;
     //hasPlayed_isStop代表Dotween动画是否播放完成
@@ -149,16 +143,14 @@ public class TimeScaleChange : MonoBehaviour
     void Start()
     {
         MyInpulse = GetComponent<Cinemachine.CinemachineImpulseSource>();
+        playerInfoBox = FindObjectOfType<PlayerInfoBox>();
         VFXClock = Timekeeper.instance.Clock("VFX");
         enemyClock = Timekeeper.instance.Clock("Enemy");
         rootClock = Timekeeper.instance.Clock("Root");
         //DOTween.To(() => value, x => value = x, 0f,2f).SetEase(Ease.InCubic);
         timeEnergy = MAX_TIME_ENERGY;
         oldTimeEnergy = timeEnergy;
-        #region 高耦合
-        timeEnergyBar = TimeEnergyBox.transform.Find("TEBar").GetComponent<Image>();
-        timeEnergyIcon = TimeEnergyBox.transform.Find("TEIcon").GetComponent<Image>();
-        #endregion
+
     }
 
     void Update()
@@ -183,11 +175,11 @@ public class TimeScaleChange : MonoBehaviour
         }
         else
         {
-            if (canPlayerAlwaysTimeStop)
+            if (canPlayerAlwaysTimeStop)//作弊用
             {
                 CalcTimeEnergy(Time.deltaTime * recoverSpeed);
             }
-            else
+            else//能量被吸收
             {
                 CalcTimeEnergy(Time.deltaTime * (recoverSpeed - consumeFactor * consumeSpeed));
             }           
@@ -238,18 +230,22 @@ public class TimeScaleChange : MonoBehaviour
                 }
         }
         
-        // if(Input.GetKeyDown(KeyCode.CapsLock))
-        // {
-        //     if (isFocusPowerOn)
-        //     {
-        //         FocusPower();       
-        //         return;
-        //     }
-        //     if(timeEnergy >= 20.0f)
-        //         FocusPower();
-        //     else
-        //         SetTimeEnergyIconRed();
-        // }
+        if(Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            if(timeEnergy >= 20.0f)
+                FocusPower();
+            else
+                SetTimeEnergyIconRed();
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            if (isFocusPowerOn)
+            {
+                FocusPower();       
+                return;
+            }
+        }
         #endregion
     }
 
@@ -274,7 +270,7 @@ public class TimeScaleChange : MonoBehaviour
                     hasPlayed_FocusPowenOn = true;
                 });
                 isFocusPowerOn = true;
-                focusPower.changeColor(true);
+                //focusPower.changeColor(true);特效
                 SetTimeEnergyIcon(true);
             }
             else if(isFocusPowerOn && hasPlayed_FocusPowenOn)
@@ -285,7 +281,7 @@ public class TimeScaleChange : MonoBehaviour
                     hasPlayed_FocusPowenOn = true;
                 });
                 isFocusPowerOn = false;
-                focusPower.changeColor(false);
+                //focusPower.changeColor(false);特效关
                 SetTimeEnergyIcon(false);
             }
         
@@ -314,7 +310,7 @@ public class TimeScaleChange : MonoBehaviour
         {
             rootClock.localTimeScale = 1.0f;
             isFocusPowerOn = false;
-            focusPower.changeColor(false);
+            //focusPower.changeColor(false);特效关
         }
         
         hasPlayed_FocusPowenOn = true;
@@ -347,23 +343,21 @@ public class TimeScaleChange : MonoBehaviour
 
     void SetTImeEnergyBar()
     {
-        timeEnergyBar.fillAmount = timeEnergy / MAX_TIME_ENERGY;
+        playerInfoBox.SetTimeEnergyBar(timeEnergy);
     }
 
     void SetTimeEnergyIcon(bool _isOn)
     {
-        if(_isOn)
-            timeEnergyIcon.DOColor(Color.yellow,0.5f);
-        else
-            timeEnergyIcon.DOColor(Color.white,0.5f);
+        playerInfoBox.SetTimeEnergyIcon(_isOn);
     }
 
     void SetTimeEnergyIconRed()
     {
-        timeEnergyIcon.color = Color.red;
-        timeEnergyIcon.DOColor(Color.white,0.25f);
+        playerInfoBox.SetTimeEnergyIconRed();
     }
     #endregion
+
+    #region Events
 
     public void OnGameOver(CommonMessage msg)
     {
@@ -402,6 +396,9 @@ public class TimeScaleChange : MonoBehaviour
         if(msg.Mid != (int)MESSAGE_TYPE.LEVEL_CLEAR) return;
         ResetTimeControl();
     }
+
+    #endregion
+    
     void SetTimeStop(bool val)
     {
         if(isStop == true && val == false){//原先开启现在关闭

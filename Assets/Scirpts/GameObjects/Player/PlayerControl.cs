@@ -236,27 +236,6 @@ public class PlayerControl : BaseBehavior
         }
     }
 
-    //void attack()
-    //{
-    //    weaponAnim.Play("attack");
-    //}
-
-    void Excute()
-    {
-        Collider2D collider= Physics2D.OverlapCircle(transform.position,excuteRadius,LayerMask.GetMask("DownEnemy"));
-        if(collider != null)
-        {
-            simpleFSM fsm = collider.gameObject.GetComponent<simpleFSM>();
-            if(fsm != null)
-                if(fsm.GetExcuted())
-                {
-                    Vector3 target = collider.transform.position;
-                    transform.position = new Vector3(target.x,target.y,transform.position.z);
-                    StartCoroutine(ExcuteSound());
-                }
-        }
-    }
-
     IEnumerator ExcuteSound()
     {
         for (int i = 0; i < 3; i++)

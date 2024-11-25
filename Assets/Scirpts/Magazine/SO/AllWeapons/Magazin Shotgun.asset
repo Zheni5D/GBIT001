@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Magazin Shotgun
   m_EditorClassIdentifier: 
   rateOfFire: 2.5
-  damage: 1
+  damage: 2
   bulletPrefab: {fileID: 6883037393498111236, guid: 39a54cba200df0b4b912b1f5de37821f, type: 3}
   Ammo: 5
   maxAmmo: 5

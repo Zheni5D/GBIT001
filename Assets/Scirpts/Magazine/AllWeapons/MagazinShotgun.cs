@@ -10,8 +10,6 @@ public class MagazinShotgun : MagazineWeapon
     private int maxBulletCnt;
     public override void Attack(Vector3 shootPos, Quaternion shootRot, bool canDamagePlayer = false)
     {
-        GameObject _bullet = Instantiate(bulletPrefab,shootPos,shootRot);
-        _bullet.GetComponent<Bullet>().SetCanDamagePlayer(canDamagePlayer);
         for (int i = 0; i < maxBulletCnt; i++)
         {
             float t = Random.Range(-maxAngle,maxAngle);
@@ -20,8 +18,8 @@ public class MagazinShotgun : MagazineWeapon
             Quaternion quaternion = Quaternion.identity;
             quaternion = Quaternion.Euler(0,0,angle);
             quaternion *= shootRot;
-            _bullet = Instantiate(bulletPrefab,shootPos,quaternion);
-            _bullet.GetComponent<Bullet>().SetCanDamagePlayer(canDamagePlayer);
+            GenerateBullet(shootPos,quaternion,canDamagePlayer);   
+
         }
         Instantiate(bulletShell, shootPos, shootRot);
     }

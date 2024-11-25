@@ -21,6 +21,8 @@ public enum StateType
 [Serializable]
 public class AIParamater
 {
+    public int MAX_HP = 2;
+    public int HP;
     public float BlockOffset;
     public float partolSpeed;
     public float chaseSpeed;
@@ -107,6 +109,7 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
 
         oriPos = transform.position;
         oriRot = transform.rotation;
+        paramater.HP = paramater.MAX_HP;
     }
 
 
@@ -207,6 +210,7 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
     }
     
     #endregion
+    #if UNITY_EDITOR
     #region GIZMOS
     protected void OnDrawGizmosSelected() {
         Vector3 offset = transform.up * observerOffsetY;
@@ -251,7 +255,8 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
         #endregion
     }
     #endregion
-
+    #endif
+    
     #region 状态相关
     public void StateTransition(StateType _type)
     {
@@ -286,26 +291,6 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
         transform.rotation *= quaternion;
     }
 
-    public bool GetExcuted()
-    {
-        if(paramater.isDown)
-        {
-            paramater.isDead = true;
-            MessageCenter.SendMessage(new CommonMessage()
-            {
-                Mid = (int)MESSAGE_TYPE.ADD_SCORE,
-                intParam = (int)paramater.stageID
-            });
-            return true;
-        }
-        return false;
-    }
-
-    public void BeatDown(Vector3 dir)
-    {
-        paramater.isDown = true;
-    }
-
     Sprite GetDeadSprite(AttackArea.AttackType attackType){
         if(paramater.deadBodySO == null) return null;
         foreach (var dictionary in paramater.deadBodySO.deadBodyDictionary)
@@ -327,11 +312,6 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
             Sprite sprite = GetDeadSprite(AttackArea.AttackType.jinzhan);//一直是近战造成的尸体
             if(sprite!=null) body.deadSprite = sprite;
             body.BodyMove(paramater.showBlood);
-        }
-        //生成血迹
-        if (paramater.showBlood)
-        {
-            Instantiate(paramater.BloodPrefab, transform.position, Yquaternion);
         }
         if (paramater.lootPrefab)
         {
@@ -374,6 +354,7 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
     {
         StateTransition(StateType.Idle);
         paramater.isHeared = false;
+        paramater.HP = paramater.MAX_HP;
     }
 
     public void Attack()
@@ -504,28 +485,37 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
         EventRemover();
     }
     
-    protected float angle, Yangle;protected Quaternion Yquaternion;
-    public void GetDamaged(Vector3 dir)
+    protected float Yangle;protected Quaternion Yquaternion;
+    public void GetDamaged(Vector3 dir,int damage = 2)
     {
         if(!paramater.isDown && !paramater.isDead)
         {
-            paramater.isDead = true;
-            MessageCenter.SendMessage(new CommonMessage()
+            paramater.HP -= damage;
+            if (paramater.HP <= 0)
             {
-                Mid = (int)MESSAGE_TYPE.ADD_SCORE,
-                intParam = (int)paramater.stageID,
-                content = this
-            });
-            if(paramater.showBlood)
-                SoundManager.PlayAudio("slash");
-            else
-                SoundManager.PlayAudio("metalstep");
+                paramater.isDead = true;
+                MessageCenter.SendMessage(new CommonMessage()
+                {
+                    Mid = (int)MESSAGE_TYPE.ADD_SCORE,
+                    intParam = (int)paramater.stageID,
+                    content = this
+                });
+                if(paramater.showBlood)
+                    SoundManager.PlayAudio("slash");
+                else
+                    SoundManager.PlayAudio("metalstep");
+            }
+            //生成血迹
             //Bloody
-            angle = Vector3.SignedAngle(Vector3.right,dir,Vector3.forward);
+            //angle = Vector3.SignedAngle(Vector3.right,dir,Vector3.forward);
             Yangle = Vector3.SignedAngle(-Vector3.up,dir,Vector3.forward);//-V3.up是因为尸体的朝向与transform.up朝向相反的缘故;
-                                                                          //2024.4.27:溅血朝向也与up相反
+            //2024.4.27:溅血朝向也与up相反
             //quaternion = Quaternion.AngleAxis(angle,Vector3.forward);
             Yquaternion = Quaternion.AngleAxis(Yangle,Vector3.forward);
+            if (paramater.showBlood)
+            {
+                Instantiate(paramater.BloodPrefab, transform.position, Yquaternion);
+            }
         }
     }
 
@@ -545,13 +535,6 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
     }
 
     #endregion
-
-    IEnumerator tempvoid()
-    {
-        //Time.timeScale = 0.1f;
-        yield return new WaitForSecondsRealtime(.02f);
-        //Time.timeScale = 1f;
-    }
 
     public Vector3 getLastTargetPos()
     {

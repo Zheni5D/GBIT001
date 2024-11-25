@@ -1,9 +1,9 @@
-﻿# 默认忽略的文件
+# 默认忽略的文件
 /shelf/
 /workspace.xml
 # Rider 忽略的文件
-/modules.xml
 /.idea.GBIT001.iml
+/modules.xml
 /contentModel.xml
 /projectSettingsUpdater.xml
 # 基于编辑器的 HTTP 客户端请求
