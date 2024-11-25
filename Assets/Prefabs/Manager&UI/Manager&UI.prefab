@@ -721,7 +721,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeEnergyBox: {fileID: 637138046873526347}
-  _timeEnergyCubes: []
 --- !u!1 &637138046873526347
 GameObject:
   m_ObjectHideFlags: 0
@@ -8681,7 +8680,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1eb45688eb3cf634f8e720adba961682, type: 2}
+  - {fileID: 2100000, guid: 2cc59d1372248f841ab47006a4de46eb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

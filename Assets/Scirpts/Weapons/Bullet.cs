@@ -53,6 +53,15 @@ public class Bullet : BaseBehavior
                     Destroy(gameObject);
                     return;
                 }
+                
+                if (other.CompareTag("Shield"))
+                {
+                    GameObject g = Instantiate(TheShitOfReference.AllShitOfReference.PrefabReference1, hitinfo.point, Quaternion.identity);
+                    ParticleSystem.MainModule m = g.GetComponent<ParticleSystem>().main;
+                    m.stopAction = ParticleSystemStopAction.Callback;
+                    Destroy(gameObject);
+                    return;
+                }
 
                 if (other.CompareTag("Enemy") && !canDamagePlayer)
                 {

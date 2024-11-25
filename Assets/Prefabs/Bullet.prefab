@@ -142,7 +142,7 @@ MonoBehaviour:
   canBounceBack: 1
   layer:
     serializedVersion: 2
-    m_Bits: 3008
+    m_Bits: 7104
   iteration: 2
 --- !u!114 &2641051215957198470
 MonoBehaviour:

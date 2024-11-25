@@ -9,6 +9,7 @@ TagManager:
   - Bullet
   - Monster
   - Breakable
+  - Shield
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - TransparentObstacle
   - Floor
   - Door
-  - 
+  - Shield
   - 
   - 
   - 
