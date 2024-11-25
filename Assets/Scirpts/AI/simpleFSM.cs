@@ -21,6 +21,8 @@ public enum StateType
 [Serializable]
 public class AIParamater
 {
+    public int MAX_HP = 2;
+    public int HP;
     public float BlockOffset;
     public float partolSpeed;
     public float chaseSpeed;
@@ -207,6 +209,7 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
     }
     
     #endregion
+    #if UNITY_EDITOR
     #region GIZMOS
     protected void OnDrawGizmosSelected() {
         Vector3 offset = transform.up * observerOffsetY;
@@ -251,7 +254,8 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
         #endregion
     }
     #endregion
-
+    #endif
+    
     #region 状态相关
     public void StateTransition(StateType _type)
     {
@@ -284,26 +288,6 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
         float angle = Vector3.SignedAngle(transform.up,targetDir,Vector3.forward);
         Quaternion quaternion = Quaternion.AngleAxis(angle,Vector3.forward);
         transform.rotation *= quaternion;
-    }
-
-    public bool GetExcuted()
-    {
-        if(paramater.isDown)
-        {
-            paramater.isDead = true;
-            MessageCenter.SendMessage(new CommonMessage()
-            {
-                Mid = (int)MESSAGE_TYPE.ADD_SCORE,
-                intParam = (int)paramater.stageID
-            });
-            return true;
-        }
-        return false;
-    }
-
-    public void BeatDown(Vector3 dir)
-    {
-        paramater.isDown = true;
     }
 
     Sprite GetDeadSprite(AttackArea.AttackType attackType){
@@ -374,6 +358,7 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
     {
         StateTransition(StateType.Idle);
         paramater.isHeared = false;
+        paramater.HP = paramater.MAX_HP;
     }
 
     public void Attack()
@@ -545,13 +530,6 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
     }
 
     #endregion
-
-    IEnumerator tempvoid()
-    {
-        //Time.timeScale = 0.1f;
-        yield return new WaitForSecondsRealtime(.02f);
-        //Time.timeScale = 1f;
-    }
 
     public Vector3 getLastTargetPos()
     {
