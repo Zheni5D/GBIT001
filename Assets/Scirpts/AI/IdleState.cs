@@ -151,7 +151,7 @@ public class PartolState : BaseState
             return;
         }
          //设置物体移动速度
-        manager.time.rigidbody2D.velocity = dir * paramater.partolSpeed;
+        manager.time.rigidbody2D.velocity = paramater.speedCoff * paramater.partolSpeed * dir;
         //设置物体永远尝试朝向目标方向
         manager.turn();
         //设置下一路径�?
@@ -384,7 +384,7 @@ public class ChaseState : BaseState
         - manager.transform.position;//物体指向目标的向�?
         Vector2 dir = obj2target.normalized;       
          //设置物体移动速度
-        manager.time.rigidbody2D.velocity = dir * paramater.chaseSpeed;
+        manager.time.rigidbody2D.velocity =paramater.speedCoff * paramater.chaseSpeed * dir;
         //设置物体永远尝试朝向目标方向
         manager.turn();
          //设置下一路径�?
@@ -815,7 +815,7 @@ public class ReachState : BaseState
         - manager.transform.position;//物体指向目标的向�?
         Vector2 dir = obj2target.normalized;       
          //设置物体移动速度
-        manager.time.rigidbody2D.velocity = dir * paramater.partolSpeed;
+        manager.time.rigidbody2D.velocity =paramater.speedCoff * paramater.partolSpeed *  dir ;
         //设置物体永远尝试朝向目标方向
         manager.turn();
          //设置下一路径�?
@@ -830,105 +830,5 @@ public class ReachState : BaseState
                 manager.time.rigidbody2D.velocity = Vector2.zero;
             }
         }
-    }
-}
-
-// 临时逻辑：已知玩家具体位置，正在追逐玩家时，进入该状�?
-public class DashState
-{
-    private simpleFSM manager;
-    private AIParamater paramater;
-    private Vector3 dir;
-    private float dashTime; // 躲闪所用时�?
-    private float dashSpeed;
-
-    public DashState(simpleFSM _manager)
-    {
-        manager = _manager;
-        paramater = _manager.paramater;
-    }
-
-    public void OnEnter()
-    {
-        dashTime = 0.5f;
-        dir = -(paramater.target.position - manager.transform.position).normalized;
-    }
-
-    public void OnUpdate()
-    {
-        if (paramater.isFreeze)
-        {
-            paramater.rigidbody.velocity = Vector3.zero;
-        }
-        else
-        {
-            dashTime -= Time.deltaTime;
-            paramater.rigidbody.velocity = dir * dashTime;
-        }
-
-        if (paramater.isDead)
-        {
-            manager.StateTransition(StateType.Dead);
-        }
-
-        if (dashTime < 0)
-        {
-            manager.StateTransition(StateType.Chase);
-        }
-    }
-
-    public void OnExit()
-    {
-    }
-}
-
-
-// 临时逻辑：已知玩家具体位置，且玩家瞄准自己时，进入该状�?
-public class DodgeState
-{
-    private simpleFSM manager;
-    private AIParamater paramater;
-    private Vector3 dir;
-    private float dodgeTime; // 躲闪所用时�?
-    private float dodgeSpeed; // 躲闪速度
-
-    public DodgeState(simpleFSM _manager)
-    {
-        manager = _manager;
-        paramater = _manager.paramater;
-    }
-
-    public void OnEnter()
-    {
-        dodgeTime = 0.5f;
-        dir = paramater.target.position - manager.transform.position.normalized;
-    }
-
-    public void OnUpdate()
-    {
-
-        if (paramater.isFreeze)
-        {
-            paramater.rigidbody.velocity = Vector3.zero;
-        }
-        else
-        {
-            dodgeTime -= Time.deltaTime;
-            paramater.rigidbody.velocity = dir * dodgeSpeed;
-        }
-
-        if (paramater.isDead)
-        {
-            manager.StateTransition(StateType.Dead);
-        }
-
-        if (dodgeTime < 0)
-        {
-            manager.StateTransition(StateType.Chase);
-        }
-    }
-
-    public void OnExit()
-    {
     }
 }

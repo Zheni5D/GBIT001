@@ -185,7 +185,7 @@ public class TimeScaledDoMove : SingleTon<TimeScaledDoMove>
 
 
 
-    public WorkPackageVector3 DoMove(TimelineChild timeline, Vector3 targetWorldPos, float duration)
+    public WorkPackageVector3 DoMove(TimelineChild timeline, Vector3 targetWorldPos, float duration,Action callback = null)
     {
         Transform t = timeline.gameObject.transform;
         WorkPackageVector3 work;
@@ -194,16 +194,19 @@ public class TimeScaledDoMove : SingleTon<TimeScaledDoMove>
             work = new WorkPackageVector3(timeline, duration, targetWorldPos);
         // else
         //     work.SetWorkPackageVector3(timeline, duration, targetWorldPos);
+        work.OnCallBack(callback);
         WorkListVector3.Add(work);
         return work;
     }
-    public WorkPackageVector3 DoMove(Timeline timeline, Vector3 targetWorldPos, float duration)
+    public WorkPackageVector3 DoMove(Timeline timeline, Vector3 targetWorldPos, float duration, Action callback = null)
     {
         Transform t = timeline.gameObject.transform;
         WorkPackageVector3 work;
         // work = WorkListVector3.Find(x => x.validate == false);
         // if (work == null)
-            work = new WorkPackageVector3(timeline, duration, targetWorldPos);
+            work = new WorkPackageVector3(timeline, duration, targetWorldPos);       
+            work.OnCallBack(callback);
+
         // else
         //     work.SetWorkPackageVector3(timeline, duration, targetWorldPos);
         WorkListVector3.Add(work);

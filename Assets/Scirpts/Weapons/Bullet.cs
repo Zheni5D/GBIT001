@@ -54,7 +54,7 @@ public class Bullet : BaseBehavior
                     return;
                 }
                 
-                if (other.CompareTag("Shield"))
+                if (other.CompareTag("Shield") && !canDamagePlayer)
                 {
                     GameObject g = Instantiate(TheShitOfReference.AllShitOfReference.PrefabReference1, hitinfo.point, Quaternion.identity);
                     ParticleSystem.MainModule m = g.GetComponent<ParticleSystem>().main;

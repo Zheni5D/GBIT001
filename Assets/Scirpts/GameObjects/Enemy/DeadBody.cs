@@ -10,6 +10,7 @@ public class DeadBody : BaseBehavior
     [SerializeField]private float distance;
     [Tooltip("飞出去的时间")]
     [SerializeField]private float duration;
+    private bool _canExplode;
     public Sprite deadSprite{
         get{
             if(spriteRenderer==null){
@@ -66,6 +67,17 @@ public class DeadBody : BaseBehavior
             //Debug.Log("blood"+bodyIndex.ToString());
             GetComponent<Animator>().Play("blood" + bodyIndex.ToString());
         }
-        TimeScaledDoMove.Instance.DoMove(GetComponent<Timeline>(), targetPoint, duration);
+        TimeScaledDoMove.Instance.DoMove(GetComponent<Timeline>(), targetPoint, duration).OnCallBack(Explode);
+    }
+
+    private void Explode()
+    {
+        if(_canExplode)
+            Instantiate(TheShitOfReference.AllShitOfReference.CirCleExplison,transform.position,Quaternion.identity);
+    }
+
+    public void SetExplode(bool v)
+    {
+        _canExplode = v;
     }
 }

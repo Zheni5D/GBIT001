@@ -23,6 +23,8 @@ public class AIParamater
 {
     public int MAX_HP = 2;
     public int HP;
+    public float speedCoff = 1.0f;
+    public bool canBodyExplode = true;
     public float BlockOffset;
     public float partolSpeed;
     public float chaseSpeed;
@@ -309,6 +311,7 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
         DeadBody body = bodyObj.GetComponent<DeadBody>();
         if(body!=null){
             body.setStageID(paramater.stageID);
+            body.SetExplode(paramater.canBodyExplode);
             Sprite sprite = GetDeadSprite(AttackArea.AttackType.jinzhan);//一直是近战造成的尸体
             if(sprite!=null) body.deadSprite = sprite;
             body.BodyMove(paramater.showBlood);

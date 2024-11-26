@@ -97,5 +97,5 @@ public class ParticleDecalData {
 	public float size;
 	public Vector3 position;
 	public Vector3 rotation;
-	public Color color;
+	[ColorUsage(true,true)]public Color color;
 }

@@ -24,7 +24,6 @@ public class FakeFSM : actorFSM
             loot = Instantiate(paramater.lootPrefab, transform.position, Yquaternion); // ��������
             WeaponItem lootItem = loot.GetComponent<WeaponItem>();
             lootItem.haveOwner = true;
-            Debug.Log(1);
 
             if (paramater.attackArea is NormalAttack rangedAttack)
                 lootItem.GetComponent<WeaponItem>().SetAmmoAmount(rangedAttack.bulletNum);

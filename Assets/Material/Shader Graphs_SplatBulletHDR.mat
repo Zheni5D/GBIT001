@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_SplatBloodShader
+  m_Name: Shader Graphs_SplatBulletHDR
   m_Shader: {fileID: -6465566751694194690, guid: 6389b565f2ed46a408d63398f9b5f1fc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -55,5 +55,5 @@ Material:
     m_Ints: []
     m_Floats: []
     m_Colors:
-    - _Color: {r: 3.9999998, g: 3.9999998, b: 3.9999998, a: 1}
+    - _Color: {r: 63.999996, g: 63.999996, b: 63.999996, a: 1}
   m_BuildTextureStacks: []

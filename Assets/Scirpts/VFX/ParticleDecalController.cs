@@ -7,6 +7,7 @@ public class ParticleDecalController : MonoBehaviour {
 	public float decalRate = 1f;        //留下血迹的概率
 	public float minSize;               //血迹大小范围
 	public float maxSize;
+	[GradientUsage(true)]
 	public Gradient colorGradient;      //颜色变化范围
 	
 	private ParticleSystem _particleSystem;
