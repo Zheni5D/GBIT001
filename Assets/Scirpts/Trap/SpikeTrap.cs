@@ -3,23 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpikeTrap : MonoBehaviour
+public class SpikeTrap : RoutineTrap
 {
     private Collider2D[] colliders;
+    [SerializeField]private Sprite spikeOnSprite;
+    [SerializeField]private Sprite spikeOffSprite;
     // Start is called before the first frame update
     void Start()
     {
        colliders = GetComponentsInChildren<Collider2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+
+
+    protected override void TrapOn()
     {
-        //每隔x秒激活子物体y秒
+        foreach (Collider2D c in colliders)
+        {
+            c.enabled = true;
+            c.gameObject.GetComponent<SpriteRenderer>().sprite = spikeOnSprite;
+        }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected override void TrapOff()
     {
-        //damage others
+        foreach (Collider2D c in colliders)
+        {
+            c.enabled = false;
+            c.gameObject.GetComponent<SpriteRenderer>().sprite = spikeOffSprite;
+        }
     }
 }

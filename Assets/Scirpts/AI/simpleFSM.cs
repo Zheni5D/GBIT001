@@ -315,7 +315,9 @@ public class simpleFSM : BaseBehavior,IHearingReceiver
             Sprite sprite = GetDeadSprite(AttackArea.AttackType.jinzhan);//一直是近战造成的尸体
             if(sprite!=null) body.deadSprite = sprite;
             body.BodyMove(paramater.showBlood);
-            Instantiate(TheShitOfReference.AllShitOfReference.StarReference, transform.position, Yquaternion);
+            GameObject g = Instantiate(TheShitOfReference.AllShitOfReference.StarReference, transform.position, Yquaternion);
+            ParticleSystem.MainModule m = g.GetComponent<ParticleSystem>().main;
+            m.stopAction = ParticleSystemStopAction.Callback;
         }
         if (paramater.lootPrefab)
         {
