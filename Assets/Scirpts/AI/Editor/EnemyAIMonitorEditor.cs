@@ -25,6 +25,7 @@ public class EnemyAIMonitorEditor : Editor {
     private bool _hasFlashSpeed;
     private bool _hasBodyExplosion;
     private bool _hasGhostMode;
+    private Color _outlineColor;
     
     private void OnEnable() {
         LoadPatrolPointsList();
@@ -32,6 +33,7 @@ public class EnemyAIMonitorEditor : Editor {
         EnemyAIMonitor ctr = target as EnemyAIMonitor;
         ctr.Refresh();
         simpleFSM fsm = ctr.GetFSM();
+        // ctr.outlineColor = _outlineColor;
         //fsm is actorFSM
         if(fsm is actorFSM)
         {
@@ -49,6 +51,21 @@ public class EnemyAIMonitorEditor : Editor {
     }
     public override void OnInspectorGUI() {
         base.OnInspectorGUI();
+        GUILayout.Space(10);
+        GUILayout.BeginHorizontal();
+        if(GUILayout.Button("设置描边颜色",GUILayout.MaxWidth(100f)))
+        {
+            var s = target as EnemyAIMonitor;
+            var rend = s.GetComponent<Renderer>();
+            MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+            rend.GetPropertyBlock(propertyBlock);
+            propertyBlock.SetColor("_Color", s.outlineColor);
+            rend.SetPropertyBlock(propertyBlock);
+            
+            EditorUtility.SetDirty(s);
+            Undo.RecordObject(s,"set outline color");
+        }
+        GUILayout.EndHorizontal();
         
         GUILayout.Space(10);
         if(GUILayout.Button("Refresh",GUILayout.MaxWidth(55f)))
@@ -265,6 +282,8 @@ public class EnemyAIMonitorEditor : Editor {
             ctr.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,.4f);
         }
         #endregion
+        
+        
     }
 
     private void OnSceneGUI(SceneView sceneView)
