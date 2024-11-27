@@ -16,3 +16,4 @@ MonoBehaviour:
   TransGate_arrow: {fileID: 5097877715137170381, guid: 9adc28335ceebc848ac42aacef97574a, type: 3}
   CirCleExplison: {fileID: 1232010713302827731, guid: d7cca84235b37804b99627db40f2653c, type: 3}
   PrefabReference4: {fileID: 0}
+  StarReference: {fileID: 8992385963463506660, guid: e601edc05be3bb6438a2e9e005eec922, type: 3}

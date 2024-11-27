@@ -66,4 +66,9 @@ public class CircleReferent : BaseBehavior
         if (msg.Mid != (int)MESSAGE_TYPE.GAME_RESTART) return;
         Destroy(gameObject);
     }
+
+    public void SetDelay(float delay)
+    {
+        triggerDelay = delay;
+    }
 }

@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 1986211479006269806}
   - component: {fileID: 1986211479006269807}
   - component: {fileID: -8311100151747886562}
+  - component: {fileID: 1155778892874712870}
   m_Layer: 8
   m_Name: ActorEnemyLaserGun
   m_TagString: Enemy
@@ -413,6 +414,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paramater:
+    MAX_HP: 2
+    HP: 0
+    speedCoff: 1
+    canBodyExplode: 1
     BlockOffset: 2
     partolSpeed: 5
     chaseSpeed: 4
@@ -521,7 +526,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ef8e23427b24064db7142b928a6627d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outlineColor: {r: 0, g: 0, b: 0, a: 0}
   fsm: {fileID: 1986211479006269806}
+--- !u!114 &1155778892874712870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1986211479006269712}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 355addd9f9aca364d9c23f3fceeebf30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxShadowCacheCount: 15
+  shadowColor: {r: 0, g: 0.03529412, b: 1, a: 0.3137255}
+  shadowMaterial: {fileID: 2100000, guid: 03b3eb5e80df798419665f114f929e53, type: 2}
+  record_interval: 0.05
 --- !u!1 &1986211479240760024
 GameObject:
   m_ObjectHideFlags: 0

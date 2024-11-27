@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 3189599664053915847}
   - component: {fileID: 3189599664053915846}
   - component: {fileID: -9219608393595920952}
+  - component: {fileID: 4422818184950402105}
   m_Layer: 8
   m_Name: ActorEnemySubmachineGun
   m_TagString: Enemy
@@ -204,6 +205,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paramater:
+    MAX_HP: 2
+    HP: 0
+    speedCoff: 1
+    canBodyExplode: 1
     BlockOffset: 2
     partolSpeed: 5
     chaseSpeed: 8
@@ -312,7 +317,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ef8e23427b24064db7142b928a6627d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outlineColor: {r: 0, g: 0, b: 0, a: 0}
   fsm: {fileID: 3189599664053915847}
+--- !u!114 &4422818184950402105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4667527998873599045}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 355addd9f9aca364d9c23f3fceeebf30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxShadowCacheCount: 15
+  shadowColor: {r: 0, g: 0.03529412, b: 1, a: 0.3137255}
+  shadowMaterial: {fileID: 2100000, guid: 03b3eb5e80df798419665f114f929e53, type: 2}
+  record_interval: 0.05
 --- !u!1 &4667527999099806388
 GameObject:
   m_ObjectHideFlags: 0

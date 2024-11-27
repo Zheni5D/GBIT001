@@ -271,8 +271,13 @@ public class TimeScaleChange : MonoBehaviour
                 DOTween.To(() => VFXClock.localTimeScale, x => VFXClock.localTimeScale = x, .25f,.25f).SetEase(Ease.OutSine);
                 enemyClock.localTimeScale = .25f;
                 isFocusPowerOn = true;
-                //focusPower.changeColor(true);特效
                 SetTimeEnergyIcon(true);
+                //特效开
+                DOTween.To(()=>chromaticAberrationIndensity,x => chromaticAberrationIndensity = x,1f,.5f).SetEase(Ease.OutBack);
+                MessageCenter.SendMessage(new CommonMessage()
+                {
+                    Mid = (int)MESSAGE_TYPE.FOCUS_ON
+                },MESSAGE_TYPE.FOCUS_ON);
             }
             else if(isFocusPowerOn && hasPlayed_FocusPowenOn)//off
             {
@@ -284,8 +289,13 @@ public class TimeScaleChange : MonoBehaviour
                 DOTween.To(() => VFXClock.localTimeScale, x => VFXClock.localTimeScale = x, 1f,1f).SetEase(Ease.OutSine);
                 enemyClock.localTimeScale = 1.0f;
                 isFocusPowerOn = false;
-                //focusPower.changeColor(false);特效关
+                //特效关
                 SetTimeEnergyIcon(false);
+                chromaticAberrationIndensity = 0f;
+                MessageCenter.SendMessage(new CommonMessage()
+                {
+                    Mid = (int)MESSAGE_TYPE.FOCUS_OFF
+                },MESSAGE_TYPE.FOCUS_OFF);
             }
         
     }
@@ -297,6 +307,10 @@ public class TimeScaleChange : MonoBehaviour
         //Debug.Log("T键取消时停");
         SetTimeStop(false);
         SetTimeEnergyIcon(false);
+        MessageCenter.SendMessage(new CommonMessage()
+        {
+            Mid = (int)MESSAGE_TYPE.FOCUS_OFF
+        },MESSAGE_TYPE.FOCUS_OFF);
     }
     //死亡、能量不够、通关会调用
     void ResetTimeControl()
@@ -308,8 +322,6 @@ public class TimeScaleChange : MonoBehaviour
         screenShockRadius = 0.0f;
         screenShockIndensity = 0.0f;
 
-
-        //弃用的
         if(isFocusPowerOn)
         {
             rootClock.localTimeScale = 1.0f;
@@ -442,5 +454,5 @@ public class TimeScaleChange : MonoBehaviour
     public void ChangeConsumeFactor(int value){
         consumeFactor += value;
     }
-
+    
 }

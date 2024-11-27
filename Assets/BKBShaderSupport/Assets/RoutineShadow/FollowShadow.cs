@@ -30,11 +30,10 @@ using DG.Tweening;
 // }
 public class FollowShadow : MonoBehaviour
 {
-    [SerializeField]
-    private bool isGenerating;
-    [SerializeField]
-    private int maxShadowCacheCount = 10;
-    [SerializeField]private Color shadowColor;
+    [SerializeField] private bool isGenerating;
+    [SerializeField] private int maxShadowCacheCount = 10;
+    [SerializeField,ColorUsage(true,true)]private Color shadowColor;
+    [SerializeField] private Material shadowMaterial;
     [SerializeField] private float record_interval;
     private bool isGamePause = false;
     private List<SpriteRenderer> shadows = new List<SpriteRenderer>();
@@ -62,6 +61,7 @@ public class FollowShadow : MonoBehaviour
             s.sortingOrder = spr.sortingOrder - 1;
             s.sprite = spr.sprite;
             s.color = new Color(0,0,0,.5f);
+            s.material = shadowMaterial;
             s.gameObject.SetActive(false);
             shadows.Add(s);
         }
@@ -117,5 +117,10 @@ public class FollowShadow : MonoBehaviour
     private void OnGamePauseOff(CommonMessage msg){
         if(msg.Mid != (int)MESSAGE_TYPE.PAUSE_OFF) return;
         isGamePause = false;
+    }
+
+    public void SetGenerating(bool value)
+    {
+        isGenerating = value;
     }
 }

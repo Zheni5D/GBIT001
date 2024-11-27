@@ -76,6 +76,8 @@ public class PlayerControl : BaseBehavior
         MessageCenter.AddListener(OnStageClear);
         MessageCenter.AddListener(OnFuryModeOff);
         MessageCenter.AddListener(OnFuryModeOn);
+        MessageCenter.AddListener(OnFocusOff,MESSAGE_TYPE.FOCUS_OFF);
+        MessageCenter.AddListener(OnFocusOn, MESSAGE_TYPE.FOCUS_ON);
     }
 
     // Start is called before the first frame update
@@ -198,6 +200,8 @@ public class PlayerControl : BaseBehavior
         MessageCenter.RemoveListner(OnStageClear);
         MessageCenter.RemoveListner(OnFuryModeOff);
         MessageCenter.RemoveListner(OnFuryModeOn);
+        MessageCenter.RemoveListener(OnFocusOff,MESSAGE_TYPE.FOCUS_OFF);
+        MessageCenter.RemoveListener(OnFocusOn, MESSAGE_TYPE.FOCUS_ON);
     }
 
     private void OnDrawGizmosSelected() {
@@ -309,21 +313,32 @@ public class PlayerControl : BaseBehavior
         isStageCleared = false;
     }
 
-    public void OnStageClear(CommonMessage msg)
+    private void OnStageClear(CommonMessage msg)
     {
         if(msg.Mid != (int)MESSAGE_TYPE.STAGE_CLEAR) return;
         isStageCleared = true;
     }
 
-    public void OnFuryModeOn(CommonMessage msg)
+    private void OnFuryModeOn(CommonMessage msg)
     {
         if(msg.Mid != (int)MESSAGE_TYPE.FURY_MODE_ON) return;
         FuryModeBegin();
     }
-    public void OnFuryModeOff(CommonMessage msg)
+
+    private void OnFuryModeOff(CommonMessage msg)
     {
         if(msg.Mid != (int)MESSAGE_TYPE.FURY_MODE_OFF) return;
         FuryModeFin();
+    }
+
+    private void OnFocusOn(CommonMessage msg)
+    {
+        GetComponent<FollowShadow>().SetGenerating(true);
+    }
+
+    private void OnFocusOff(CommonMessage msg)
+    {
+        GetComponent<FollowShadow>().SetGenerating(false);
     }
     #endregion
 }

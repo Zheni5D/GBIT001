@@ -35,17 +35,19 @@ public class Bullet : BaseBehavior
             if (hitinfo)
             {
                 Collider2D other = hitinfo.collider;
-                if (other.CompareTag("Breakable"))
+                if (other.CompareTag("Breakable"))//子弹会穿透
                 {
                     if (other.TryGetComponent(out Breakable breakableObject))
                     {
+                        GameObject g = Instantiate(TheShitOfReference.AllShitOfReference.PrefabReference1, hitinfo.point, Quaternion.identity);
+                        ParticleSystem.MainModule m = g.GetComponent<ParticleSystem>().main;
+                        m.stopAction = ParticleSystemStopAction.Callback;
                         breakableObject.GetHurt(oriPos, hitinfo.point);
                         //Destroy(gameObject);
                     }
                     return;
                 }
-
-                if (other.CompareTag("Obstacle"))
+                if (other.CompareTag("Obstacle"))//子弹不会穿透 阻挡视野
                 {
                     GameObject g = Instantiate(TheShitOfReference.AllShitOfReference.PrefabReference1, hitinfo.point, Quaternion.identity);
                     ParticleSystem.MainModule m = g.GetComponent<ParticleSystem>().main;
@@ -54,23 +56,27 @@ public class Bullet : BaseBehavior
                     return;
                 }
                 
-                if (other.CompareTag("Shield") && !canDamagePlayer)
+                if (other.CompareTag("Shield") && !canDamagePlayer)//子弹不会穿透 不阻挡视野
                 {
                     GameObject g = Instantiate(TheShitOfReference.AllShitOfReference.PrefabReference1, hitinfo.point, Quaternion.identity);
                     ParticleSystem.MainModule m = g.GetComponent<ParticleSystem>().main;
                     m.stopAction = ParticleSystemStopAction.Callback;
+                    if (other.TryGetComponent(out Breakable breakableObject))
+                    {
+                        breakableObject.GetHurt(oriPos, hitinfo.point);
+                    }
                     Destroy(gameObject);
                     return;
                 }
 
-                if (other.CompareTag("Enemy") && !canDamagePlayer)
+                if (other.CompareTag("Enemy") && !canDamagePlayer)//子弹不会穿透 不阻挡视野
                 {
                     other.GetComponent<simpleFSM>().GetDamaged(transform.up,_damage);
                     Destroy(gameObject);
                     return;
                 }
 
-                if (other.CompareTag("Player") && canDamagePlayer)
+                if (other.CompareTag("Player") && canDamagePlayer)//子弹不会穿透
                 {
                     other.GetComponent<PlayerControl>().GetDamaged(null);
                     Destroy(gameObject);

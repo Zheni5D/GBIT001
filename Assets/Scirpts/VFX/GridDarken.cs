@@ -13,17 +13,14 @@ public class GridDarken : MonoBehaviour
     {
         tilemap = GetComponent<Tilemap>();
         oriColor = tilemap.color;
-        MessageCenter.AddListener(OnTimeStopOn);
-        MessageCenter.AddListener(OnTimeStopOff);
+        MessageCenter.AddListener(OnFocusOn,MESSAGE_TYPE.FOCUS_ON);
+        MessageCenter.AddListener(OnFocusOff,MESSAGE_TYPE.FOCUS_OFF);
     }
 
-    private void Update() {
-
-    }
 
     private void OnDestroy() {
-        MessageCenter.RemoveListner(OnTimeStopOff);
-        MessageCenter.RemoveListner(OnTimeStopOn);
+        MessageCenter.RemoveListener(OnFocusOff,MESSAGE_TYPE.FOCUS_OFF);
+        MessageCenter.RemoveListener(OnFocusOn,MESSAGE_TYPE.FOCUS_ON);
     }
 
     public void OnTimeStopOn(CommonMessage msg)
@@ -37,6 +34,19 @@ public class GridDarken : MonoBehaviour
     public void OnTimeStopOff(CommonMessage msg)
     {
         if(msg.Mid != (int)MESSAGE_TYPE.TIME_STOP_OFF) return;
+        if(tween!=null)
+            tween.Kill();
+        tween = DOTween.To(()=>tilemap.color,x=>tilemap.color = x,oriColor,1.0f);
+    }
+    public void OnFocusOn(CommonMessage msg)
+    {
+        if(tween!=null)
+            tween.Kill();
+        tween = DOTween.To(()=>tilemap.color,x=>tilemap.color = x,targetColor,1.0f);
+    }
+
+    public void OnFocusOff(CommonMessage msg)
+    {
         if(tween!=null)
             tween.Kill();
         tween = DOTween.To(()=>tilemap.color,x=>tilemap.color = x,oriColor,1.0f);

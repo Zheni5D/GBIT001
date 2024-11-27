@@ -13,6 +13,9 @@ public class Bomb : BaseBehavior
         else if (collision.transform.CompareTag("Enemy") && collision.transform.TryGetComponent(out simpleFSM fsm))
         {
             fsm.GetDamaged(collision.transform.position - transform.position);
+        }else if (collision.transform.CompareTag("Breakable") && collision.transform.TryGetComponent(out BombBox bomb))
+        {
+            bomb.ExplodeImmidiately();
         }
     }
 

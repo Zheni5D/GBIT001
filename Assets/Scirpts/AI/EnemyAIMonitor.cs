@@ -10,7 +10,11 @@ public class EnemyAIMonitor : MonoBehaviour
     public Color outlineColor;
     #if UNITY_EDITOR
     [SerializeField]private simpleFSM fsm;
-    
+    [HideInInspector]public bool _hasTimeCrack = false;
+    [HideInInspector]public bool _hasShield = false;
+    [HideInInspector]public bool _hasFlashSpeed;
+    [HideInInspector]public bool _hasBodyExplosion;
+    [HideInInspector]public bool _hasGhostMode;
 
     // Start is called before the first frame update
     void OnEnable()

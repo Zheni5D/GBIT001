@@ -6,7 +6,7 @@ public class Breakable : MonoBehaviour
 {
     public string sfxName = "doorBroken";
     public int maxHp = 3;
-    public int currentHp;
+    protected int currentHp;
     protected bool getHurtThisFrame;
     protected Split split;
     [SerializeField]protected float soundRadius;
@@ -48,8 +48,9 @@ public class Breakable : MonoBehaviour
             gameObject.SetActive(false);
             if(split != null) split.Trigger(murderPoint);
             SoundManager.PlayAudio(sfxName);
-            // ÆÆ»µÐ§¹û+ÆÆ»µÒôÐ§
+            // ???§¹??+?????§¹
             HearingPoster.PostVoice(transform.position, soundRadius);
+            OnBreak();
         }
     }
 
@@ -67,8 +68,14 @@ public class Breakable : MonoBehaviour
             if(split != null) split.Trigger(murderPoint);
             SoundManager.PlayAudio(sfxName);
             HearingPoster.PostVoice(transform.position, soundRadius);
-            // ÆÆ»µÐ§¹û+ÆÆ»µÒôÐ§
+            OnBreak();
+            // ???§¹??+?????§¹
         }
+    }
+
+    protected virtual void OnBreak()
+    {
+        
     }
 
     public virtual void OnGameRestart(CommonMessage msg)

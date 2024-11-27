@@ -8,4 +8,5 @@ public class AllShitOfReference : ScriptableObject {
     public GameObject TransGate_arrow;
     public GameObject CirCleExplison;
     public GameObject PrefabReference4;
+    public GameObject StarReference;
 }

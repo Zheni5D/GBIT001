@@ -45,6 +45,11 @@ public class EnemyAIMonitorEditor : Editor {
             fsmStateId = 0;
         }
         //fsm is standFSM
+        _hasShield = ctr._hasShield;
+        _hasTimeCrack = ctr._hasTimeCrack;
+        _hasFlashSpeed = ctr._hasFlashSpeed;
+        _hasGhostMode = ctr._hasGhostMode;
+        _hasBodyExplosion = ctr._hasBodyExplosion;
     }
     private void OnDestroy() {
         SceneView.duringSceneGui -= OnSceneGUI;
@@ -181,6 +186,8 @@ public class EnemyAIMonitorEditor : Editor {
             Undo.RegisterCreatedObjectUndo(@object, loadedGameObject.name);
             @object.transform.position = ctl.transform.position;
             _hasTimeCrack = true;
+            ctl._hasTimeCrack = true;
+            EditorUtility.SetDirty(ctl);
         }
         GUILayout.Space(50);
         if (_hasTimeCrack)
@@ -189,6 +196,8 @@ public class EnemyAIMonitorEditor : Editor {
                 EnemyAIMonitor ctl = target as EnemyAIMonitor;
                 DestroyImmediate(ctl.transform.Find("TimeCrack").gameObject);
                 _hasTimeCrack = false;
+                ctl._hasTimeCrack = false;
+                EditorUtility.SetDirty(ctl);
             }
         }
         GUILayout.Space(20);
@@ -211,6 +220,8 @@ public class EnemyAIMonitorEditor : Editor {
             Undo.RegisterCreatedObjectUndo(@object, loadedGameObject.name);
             @object.transform.position = ctl.transform.position;
             _hasShield = true;
+            ctl._hasShield = true;
+            EditorUtility.SetDirty(ctl);
         }
         GUILayout.Space(50);
         if (_hasShield)
@@ -219,6 +230,8 @@ public class EnemyAIMonitorEditor : Editor {
                 EnemyAIMonitor ctl = target as EnemyAIMonitor;
                 DestroyImmediate(ctl.transform.Find("Shield").gameObject);
                 _hasShield = false;
+                ctl._hasShield = false;
+                EditorUtility.SetDirty(ctl);
             }
         }
         GUILayout.Space(20);
@@ -236,10 +249,14 @@ public class EnemyAIMonitorEditor : Editor {
             if(GUILayout.Button("飞毛腿",GUILayout.MaxWidth(100f))){
                 _hasFlashSpeed = true;
                 EnemyAIMonitor ctr = target as EnemyAIMonitor;
+                ctr._hasFlashSpeed = true;
                 var source = new SerializedObject(ctr.GetFSM());
                 source.FindProperty("paramater").FindPropertyRelative("speedCoff").floatValue = 1.5f;
+                var shadow = new SerializedObject(ctr.GetComponent<FollowShadow>());
+                shadow.FindProperty("isGenerating").boolValue = true;
                 EditorUtility.SetDirty(ctr);
                 source.ApplyModifiedProperties();
+                shadow.ApplyModifiedProperties();
             }
         }
         else
@@ -247,10 +264,14 @@ public class EnemyAIMonitorEditor : Editor {
             if(GUILayout.Button("取消飞毛腿",GUILayout.MaxWidth(100f))){
                 _hasFlashSpeed = false;
                 EnemyAIMonitor ctr = target as EnemyAIMonitor;
+                ctr._hasFlashSpeed = false;
                 var source = new SerializedObject(ctr.GetFSM());
                 source.FindProperty("paramater").FindPropertyRelative("speedCoff").floatValue = 1f;
+                var shadow = new SerializedObject(ctr.GetComponent<FollowShadow>());
+                shadow.FindProperty("isGenerating").boolValue = true;
                 EditorUtility.SetDirty(ctr);
                 source.ApplyModifiedProperties();
+                shadow.ApplyModifiedProperties();
             }
         }
         GUILayout.Space(10);
@@ -259,6 +280,7 @@ public class EnemyAIMonitorEditor : Editor {
             if(GUILayout.Button("尸爆",GUILayout.MaxWidth(100f))){
                 _hasBodyExplosion = true;
                 EnemyAIMonitor ctr = target as EnemyAIMonitor;
+                ctr._hasFlashSpeed = true;
                 var source = new SerializedObject(ctr.GetFSM());
                 source.FindProperty("paramater").FindPropertyRelative("canBodyExplode").boolValue = true;
                 EditorUtility.SetDirty(ctr);
@@ -270,6 +292,7 @@ public class EnemyAIMonitorEditor : Editor {
             if(GUILayout.Button("取消尸爆",GUILayout.MaxWidth(100f))){
                 _hasBodyExplosion = false;
                 EnemyAIMonitor ctr = target as EnemyAIMonitor;
+                ctr._hasFlashSpeed = false;
                 var source = new SerializedObject(ctr.GetFSM());
                 source.FindProperty("paramater").FindPropertyRelative("canBodyExplode").boolValue = false;
                 EditorUtility.SetDirty(ctr);
@@ -279,7 +302,10 @@ public class EnemyAIMonitorEditor : Editor {
         GUILayout.Space(10);
         if(GUILayout.Button("幽灵",GUILayout.MaxWidth(100f))){
             EnemyAIMonitor ctr = target as EnemyAIMonitor;
+            _hasGhostMode = true;
+            ctr._hasGhostMode = true;
             ctr.GetComponent<SpriteRenderer>().color = new Color(1f,1f,1f,.4f);
+            EditorUtility.SetDirty(ctr);
         }
         #endregion
         
