@@ -71,8 +71,8 @@ public class RoutineShadow : MonoBehaviour
     
     
     private void OnEnable() {
-        MessageCenter.AddListener(OnTimeStopOff);
-        MessageCenter.AddListener(OnTimeStopOn);
+        MessageCenter.AddListener(OnTimeStopOff,MESSAGE_TYPE.FOCUS_OFF);
+        MessageCenter.AddListener(OnTimeStopOn,MESSAGE_TYPE.FOCUS_ON);
         MessageCenter.RemoveListner(OnGamePauseOn);
         MessageCenter.AddListener(OnGamePauseOff);
         windMaterial.SetFloat("_speed",3f);
@@ -109,8 +109,8 @@ public class RoutineShadow : MonoBehaviour
     }
 
     private void OnDisable() {
-        MessageCenter.RemoveListner(OnTimeStopOff);
-        MessageCenter.RemoveListner(OnTimeStopOn);
+        MessageCenter.RemoveListener(OnTimeStopOff,MESSAGE_TYPE.FOCUS_OFF);
+        MessageCenter.RemoveListener(OnTimeStopOn,MESSAGE_TYPE.FOCUS_ON);
         MessageCenter.RemoveListner(OnGamePauseOn);
         MessageCenter.RemoveListner(OnGamePauseOff);
         stopGenerateShadows();
@@ -211,13 +211,11 @@ public class RoutineShadow : MonoBehaviour
 
     public void OnTimeStopOff(CommonMessage msg)
     {
-        if(msg.Mid != (int)MESSAGE_TYPE.TIME_STOP_OFF) return;
         stopGenerateShadows();   
     }
 
     public void OnTimeStopOn(CommonMessage msg)
     {
-        if(msg.Mid != (int)MESSAGE_TYPE.TIME_STOP_ON) return;
         playGenerateShadows();   
     }
 
